@@ -1,0 +1,15 @@
+data <- read.csv("household_power_consumption.txt", sep=";")
+crp <- subset(data, (strptime(Date,format="%d/%m/%Y") == "2007-02-01 PST" | strptime(Date,format="%d/%m/%Y") == "2007-02-02 PST"))
+full <- paste(crp$Date,crp$Time)
+par(mfrow=c(2,2))
+
+plot(strptime(full,format="%d/%m/%Y %H:%M:%S"),as.numeric(crp$Global_active_power),xlab="",ylab="Global Active Power (kilowatts)",type="l")
+plot(strptime(full,format="%d/%m/%Y %H:%M:%S"),as.numeric(crp$Voltage),xlab="datetime",ylab="Voltage",type="l")
+plot(strptime(full,format="%d/%m/%Y %H:%M:%S"),as.numeric(crp$Sub_metering_1),xlab="",ylab="Energy sub metering",type="l")
+lines(strptime(full,format="%d/%m/%Y %H:%M:%S"),as.numeric(crp$Sub_metering_2),col="red")
+lines(strptime(full,format="%d/%m/%Y %H:%M:%S"),as.numeric(crp$Sub_metering_3),col="blue")
+legend("topright",legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),lty=1,col=c("black","red","blue"),bty="n",cex=0.75)
+plot(strptime(full,format="%d/%m/%Y %H:%M:%S"),as.numeric(crp$Global_reactive_power),xlab="datetime",ylab="Global_reactive_power",type="l")
+
+dev.copy(png,file="plot4.png")
+dev.off()
